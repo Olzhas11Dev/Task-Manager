@@ -1,20 +1,30 @@
 import React from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function TasksInputs() {
   const [title, setTitle] = React.useState('');
   const [textArea, setTextArea] = React.useState('');
   const [starIndex, setStarIndex] = React.useState(null);
 
-  const addHandle = () => {
+  const navigate = useNavigate();
+
+  const addHandle = async () => {
     let objectToAdd = {
       title,
-      textArea,
+      text: textArea,
       starIndex,
+      status: false,
     };
-    console.log(objectToAdd);
+
+    await Axios.post('https://61b7e56c64e4a10017d18cf0.mockapi.io/Tasks', objectToAdd);
+
     setTitle('');
     setTextArea('');
+    setStarIndex(null);
+
+    navigate('/'); // Please navigate at the end to avoid unmopund problem!!!
   };
 
   return (
