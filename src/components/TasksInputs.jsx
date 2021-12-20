@@ -2,6 +2,8 @@ import React from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import Axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addTaskAction } from '../actions/taskActions';
 
 function TasksInputs() {
   const [title, setTitle] = React.useState('');
@@ -10,6 +12,7 @@ function TasksInputs() {
   const [error, setError] = React.useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const addHandle = async () => {
     if (!title || !textArea) {
@@ -21,8 +24,8 @@ function TasksInputs() {
         starIndex,
         status: false,
       };
+      dispatch(addTaskAction(objectToAdd));
 
-      await Axios.post('https://61b7e56c64e4a10017d18cf0.mockapi.io/Tasks', objectToAdd);
       setTitle('');
       setTextArea('');
       setStarIndex(null);
@@ -34,6 +37,9 @@ function TasksInputs() {
   return (
     <div className="container">
       <div className="w-75 m-auto form-floating">
+        <button onClick={() => navigate('/')} className="btn mb-2 btn-secondary">
+          Go to Tasks
+        </button>
         <div className="form-floating mb-3">
           <input
             onChange={(e) => setTitle(e.target.value)}
