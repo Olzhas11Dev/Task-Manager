@@ -7,24 +7,28 @@ function TasksInputs() {
   const [title, setTitle] = React.useState('');
   const [textArea, setTextArea] = React.useState('');
   const [starIndex, setStarIndex] = React.useState(null);
+  const [error, setError] = React.useState(false);
 
   const navigate = useNavigate();
 
   const addHandle = async () => {
-    let objectToAdd = {
-      title,
-      text: textArea,
-      starIndex,
-      status: false,
-    };
+    if (!title || !textArea) {
+      setError(true);
+    } else {
+      let objectToAdd = {
+        title,
+        text: textArea,
+        starIndex,
+        status: false,
+      };
 
-    await Axios.post('https://61b7e56c64e4a10017d18cf0.mockapi.io/Tasks', objectToAdd);
-
-    setTitle('');
-    setTextArea('');
-    setStarIndex(null);
-
-    navigate('/'); // Please navigate at the end to avoid unmopund problem!!!
+      await Axios.post('https://61b7e56c64e4a10017d18cf0.mockapi.io/Tasks', objectToAdd);
+      setTitle('');
+      setTextArea('');
+      setStarIndex(null);
+      setError(false);
+      navigate('/'); // Please navigate at the end to avoid unmopund problem!!!
+    }
   };
 
   return (
@@ -52,7 +56,10 @@ function TasksInputs() {
             style={{ height: '200px' }}></textarea>
           <label htmlFor="floatingTextarea2">Task Description</label>
         </div>
-
+        <div style={{ height: '20px', color: 'red' }}>
+          {' '}
+          {error && 'Please fill Title and Description filds'}
+        </div>
         <h6 className="mt-3">How important your task?</h6>
         <div>
           {[...Array(5)].map((star, index) => (
