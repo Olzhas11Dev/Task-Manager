@@ -46,7 +46,9 @@ function Home() {
             <div className="card-body">
               <h5 className="card-title">Task title</h5>
               <h6 className="card-subtitle mb-1 text-muted">{elem.title}</h6>
-              <p className="card-text">{elem.text}</p>
+              <p className="card-text" style={{ height: '100px', overflowY: 'auto' }}>
+                {elem.text}
+              </p>
 
               <div className="raiting mb-3">
                 {[...Array(5)].map((star, index) => (
